@@ -9,30 +9,45 @@ ApplicationWindow {
     width: 640
     height: 480
     visible: true
+    color: "white"
 
     ColumnLayout {
         anchors.fill: parent
 
         Rectangle {
             id: bigBox
-            height: root.height - 100
+            height: root.height - 200
             width: root.width
 
             Rectangle {
                 anchors.centerIn: parent
-                width: 440
+                width: 400
                 height: 200
                 radius: 10
                 color: "#b9d795"
 
-                Text {
+                // Because we need select the text
+                TextEdit {
                     id: wordTxt
                     anchors.centerIn: parent
+                    readOnly: true
                     height: 200
                     width: 400
                     font.pixelSize: 40
                     text: "Click Next"
+                    selectByMouse: true
                 }
+            }
+        }
+
+        TextField {
+            id: answerTxt
+
+            background: Rectangle {
+                implicitWidth: root.width - 10
+                implicitHeight: 40
+                color: "transparent"
+                border.color: "#21be2b"
             }
         }
 
@@ -43,7 +58,7 @@ ApplicationWindow {
                 id: nextBttn
                 text: "Next"
                 onClicked: {
-
+                    answerTxt.text = ""
                     wordslist.next()
                     wordTxt.text = "?"
                     wordslist.play()
