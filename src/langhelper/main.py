@@ -12,16 +12,22 @@ from PySide6.QtCore import QObject, Slot, QUrl, Signal, QThread
 from PySide6 import QtGui as qtg
 from PySide6 import QtCore as qtc
 from PySide6 import QtQml as qml
-
+import json
+import sys
 
 class WordsList(qtc.QObject):
 
     def __init__(self, parent=None):
         super(WordsList, self).__init__(parent)
+        print(sys.argv)
         self.words = {}
         self.wlist = []
+        self.session = []
         self.translations = {}
-        with open("swedish.csv") as csvfile:
+        csv_name = "swedish.csv"
+        if len(sys.argv) > 1:
+            csv_name = sys.argv[1]
+        with open(csv_name) as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
                 word = row[0]
@@ -36,7 +42,16 @@ class WordsList(qtc.QObject):
     @Slot()
     def next(self):
         number = random.randint(0, len(self.wlist))
-        self.currentword = self.wlist[number]
+        self.currentword = self.wlist.pop(number -1)
+        self.session.append(self.currentword)
+        with open("done.json", "w") as fobj:
+            json.dump(self.session, fobj)
+
+    @Slot(result=str)
+    def len(self):
+        return str(len(self.wlist))
+
+
 
     @Slot()
     def play(self):

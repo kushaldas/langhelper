@@ -40,6 +40,11 @@ ApplicationWindow {
             }
         }
 
+        Text {
+            id: numbersTxt
+            text: wordslist.len()
+        }
+
         TextField {
             id: answerTxt
 
@@ -59,8 +64,10 @@ ApplicationWindow {
                 text: "Next"
                 onClicked: {
                     answerTxt.text = ""
+                    playBttn.enabled = true
                     wordslist.next()
                     wordTxt.text = "?"
+                    numbersTxt.text = wordslist.len()
                     wordslist.play()
                 }
             }
