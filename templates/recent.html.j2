@@ -1,0 +1,98 @@
+<html>
+  <head>
+  <title>Dictionary</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+  <style>
+  body {
+	font-size: 2em;
+  }
+	figure {
+		font-size: 0.5em;
+	}
+	.box p {
+		color: DodgerBlue;
+	}
+  </style>
+  </head>
+  <body>
+<div class="columns mx-1">
+  <div class="column is-half is-offset-one-quarter">
+
+    <section class="hero is-primary mb-4">
+      <div class="hero-body">
+        <p class="title">
+          Swedish personal dictionary
+        </p>
+        <p class="subtitle">
+    Words I learned
+        </p>
+      </div>
+    </section>
+  
+    
+    <section>
+	<div>
+	<label for="searchbox" class="is-size-5">Search/Swedish. Total words: {{ words|length }}</label>
+	<input class='input mb-5' type="search" 
+	    id="searchbox" placeholder="Live search..">
+	</div>
+<iframe
+  type="audio/mp4"
+  src="./bor.mp3"
+  width="auto"
+  height="40"
+  name="audioplayer"
+  id="audioplayer"
+  ></iframe>
+{% for item in words %}
+	<div class="box">
+		<strong>{{ item.0 }}</strong>
+		<p> {{ item.1 }}</p>
+		<button onclick="play('./{{ item.2 }}')">Play</button>
+
+
+	</div>
+{% endfor %}
+
+     
+    </section>
+
+  </div>
+</div>
+<script>
+
+function play(path) {
+	var audio = new Audio(path);
+	audio.play();
+}
+
+let cards = document.querySelectorAll('.box')
+    
+function liveSearch() {
+    let search_query = document.getElementById("searchbox").value;
+    
+    //Use innerText if all contents are visible
+    //Use textContent for including hidden elements
+    for (var i = 0; i < cards.length; i++) {
+        if(cards[i].textContent.toLowerCase()
+                .includes(search_query.toLowerCase())) {
+            cards[i].classList.remove("is-hidden");
+        } else {
+            cards[i].classList.add("is-hidden");
+        }
+    }
+}
+
+//A little delay
+let typingTimer;               
+let typeInterval = 200;  
+let searchInput = document.getElementById('searchbox');
+
+searchInput.addEventListener('keyup', () => {
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(liveSearch, typeInterval);
+});
+
+</script>
+  </body>
+</html>
