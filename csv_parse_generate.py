@@ -8,9 +8,13 @@ with open("swedish.csv") as csvfile:
         word = row[0]
         filename = word.replace(" ", "_")
         fullname = f"{filename}.mp3"
+        fullname = fullname.lower()
         if not os.path.exists(fullname):
-            tts = gTTS(word, lang="sv")
-            tts.save(fullname)
-            print(f"Saved {word} voice.")
+            try:
+                tts = gTTS(word, lang="sv")
+                tts.save(fullname)
+                print(f"Saved {word} voice.")
+            except:
+                print(f"Error on {word}")
 
 
