@@ -7,7 +7,7 @@ I wrote the following set of tools to help me to learn Swedish, but these can be
 ```
 python3 -m venv .venv
 source .venv/bin/activate
-python3 -m pip install -r requirements.txt
+python3 -m pip install --require-hashes -r requirements.txt
 ```
 
 
