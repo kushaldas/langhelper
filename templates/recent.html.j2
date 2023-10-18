@@ -31,11 +31,23 @@
   
     
     <section>
+    	<div>
+	<a href="recent.html">Recent</a> <a href="bydate.html">By Date</a>
+	</div>
 	<div>
 	<label for="searchbox" class="is-size-5">Search/Swedish. Total words: {{ words|length }}</label>
 	<input class='input mb-5' type="search" 
 	    id="searchbox" placeholder="Live search..">
 	</div>
+
+	<div class="box">
+		<strong> All verbs </strong>
+		<button onclick="play('./verbs-final.mp3')">Play</button>
+
+
+	</div>
+
+
 <iframe
   type="audio/mp4"
   src="./bor.mp3"

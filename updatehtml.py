@@ -12,6 +12,7 @@ def main():
 
     output = []
     recent_output = []
+    bydate = []
 
     with open("swedish.csv") as csvfile:
         reader = csv.reader(csvfile)
@@ -25,6 +26,7 @@ def main():
             tran = row[1]
             result[word] = tran
 
+        fromstart = words.copy()
         recent = words.copy()
         recent.reverse()
 
@@ -44,20 +46,31 @@ def main():
             tran = result[word]
             recent_output.append((word.capitalize(), tran, fullname))
 
+        for word in fromstart:
+            filename = word.replace(" ", "_")
+            fullname = f"{filename}.mp3"
+            fullname = fullname.lower()
+            tran = result[word]
+            bydate.append((word.capitalize(), tran, fullname))
+
+
+
     env = Environment(
         loader=FileSystemLoader("templates"), autoescape=select_autoescape()
     )
 
     template = env.get_template(f"{outputname}.j2")
     html = template.render(words=output)
-    with open(outputname, "w") as fobj:
+    with open("all.html", "w") as fobj:
         fobj.write(html)
 
     template = env.get_template("recent.html.j2")
     html = template.render(words=recent_output)
-    with open("recent.html", "w") as fobj:
+    with open("index.html", "w") as fobj:
         fobj.write(html)
-
+    html = template.render(words=bydate)
+    with open("bydate.html", "w") as fobj:
+        fobj.write(html)
 
 if __name__ == "__main__":
     main()
